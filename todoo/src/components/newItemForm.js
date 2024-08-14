@@ -7,6 +7,8 @@ export default function NewItemForm({addTask}){
 
     const handleSubmit = (e) =>{
         e.preventDefault()
+        if(newItem === "")
+          return
         addTask(newItem)
         setNewItem("")
     }

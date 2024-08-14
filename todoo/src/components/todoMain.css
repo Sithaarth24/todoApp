@@ -1,0 +1,22 @@
+/* .sidebar{
+    grid-area: "sidebar";
+    border: 1px solid black;
+}
+
+.list{
+    grid-area: "list";
+    border: 1px solid black;
+}
+
+.inputForm{
+    grid-area: "form";
+    border: 1px solid black;
+}
+
+.parent{
+   
+    height: 100dvh;
+    width: 100vw;
+    
+    gap: 20px;
+} */

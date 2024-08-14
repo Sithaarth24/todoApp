@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 const todoSchema = new schema({
-    title:{
+    title:{    
         type:String,
         required:true
     },
@@ -10,8 +10,9 @@ const todoSchema = new schema({
         type:mongoose.Types.ObjectId,
         required:true
     },
-    category:{
-        type:String,
+    categId:{
+        type:mongoose.Types.ObjectId,
+        ref:'categories',
         required:true
     },
     status:{

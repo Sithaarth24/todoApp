@@ -1,0 +1,136 @@
+
+.outer-login-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f8;
+}
+
+
+.login-box {
+    width: 320px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; 
+}
+
+.login-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.login-buttons button {
+    width: 48%;
+    padding: 10px;
+    background-color: #007bff; 
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-buttons button:hover {
+    background-color: #0056b3; 
+}
+
+.login-forms input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+
+.login-forms button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745; 
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-forms button:disabled {
+    background-color: #6c757d;
+}
+
+.login-forms button:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+
+.login-forms br + br + span {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Main container covering the entire page */
+.todo-main {
+    display: flex;
+    justify-content: space-between; /* Distribute space between sidebar and todo list */
+    align-items: flex-start; /* Align items to the top */
+    height: 100vh;
+    padding: 20px;
+    background-color: #f0f4f8; /* Light gray background for the entire page */
+    box-sizing: border-box; /* Ensure padding is included in the width/height */
+}
+
+/* Sidebar on the left */
+.todo-sidebar {
+    border: 2px solid black;
+    width: 200px; /* Fixed width for the sidebar */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align items to the top */
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+/* Todo list on the right */
+.todo-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Take remaining space after sidebar */
+    max-width: 600px; /* Maximum width for the todo list */
+    box-sizing: border-box;
+}
+
+.todo-list {
+    width: 100rem;
+    border: 2px solid red;
+    padding: 10px;
+    margin-bottom: 20px; /* Space between todo list and input form */
+    flex-grow: 1; /* Allow the list to grow and fill available space */
+    overflow-y: auto; /* Enable scrolling if the list is long */
+}
+
+/* Input form below the todo list */
+.todo-inputForm {
+    display: flex;
+
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff; /* White background for the input form */
+    box-sizing: border-box; /* Ensure padding is included */
+}
+
+.todo-inputForm input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+/*  */

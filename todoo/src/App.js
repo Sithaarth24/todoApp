@@ -1,85 +1,70 @@
-import { useEffect, useState } from "react";
-import NewItemForm from "./newItemForm";
-import TodoList from "./todoList";
-import Sidebar from "./sidebar";
-import { useLocation } from "react-router-dom";
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import { useCallback, useEffect, useState } from 'react';
+import TodoMain from './components/todoMain';
+import { AuthContext } from './authContext';
+import Home from './components/home';
+
+export default function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const localState = JSON.parse(localStorage.getItem("CONTEXT"))
+        if(localState)
+            return localState[0]
+        return false
+    });
+    const [username, setUsername] = useState(() => {
+        const localState = JSON.parse(localStorage.getItem("CONTEXT"))
+        if(localState)
+            return localState[1]
+        return ""
+    });
+
+    useEffect(()=>{
+        localStorage.setItem("CONTEXT",JSON.stringify([isLoggedIn,username]))
+    },[isLoggedIn,username])
+
+    const login = useCallback((name) => {
+        setUsername(name)
+        setIsLoggedIn(true);
+    }, []);
+
+    const logout = useCallback(() => {
+        setUsername("")
+        setIsLoggedIn(false);
+    }, []);
 
 
 
-function App() {
-  const [currCategory,setCurrCategory] = useState("")
-  const { state } = useLocation()
-  const username = state.username
-  const [tasklist, settasklist] = useState(() =>{
-    const localItems =  localStorage.getItem('TODOTASKS')
-    if(localItems != null) return JSON.parse(localItems)
-    return []
-  })
+    // const allRoutes = () =>{
+    //     if(isLoggedIn){
+    //         return(
+    //             <Routes>
+    //                 <Route path='/todo' element={<TodoMain/>}/>
+    //             </Routes>
+    //         )
+    //     }
+    //     else{
+    //         return(
+    //             <Routes>
+    //                 <Route path='/todo' element={<TodoMain/>}/>
+    //                 <Route path='/login' element={<Login />} />
+    //                 <Route path='/home' element={<Home />} />
+    //                 <Route path='/' element={<Home />} />
+    //             </Routes>
+    //         )
+    //     }
+    // }
 
-  useEffect(()=>{
-    console.log("cat came")
-    const fetchData = async () =>{
-        await fetch(BACKEND_URL+username+'/todo/all')
-        .then(response => response.json())
-        .then(data => {if(data.todos.length !== 0) settasklist([data.todos.map(t => {return { id: crypto.randomUUID(), task: t.title, checked: t.status,category:t.category,user:username}})])})
-        .catch(err => console.log('fetch error:\n'+err))
-        
-    }
-    const localData = JSON.parse(localStorage.getItem('TODOTASKS'))
-    if(localData)
-        settasklist(localData)
-    else fetchData()
-},[])
-
-  useEffect(()=>{
-    localStorage.setItem('TODOTASKS',JSON.stringify(tasklist))
-  },[tasklist])
-
-  const addTask = async (newItem) => {
-    console.log("current:"+currCategory)
-    settasklist(currlist => {
-      if(newItem === "") return currlist
-      return([...currlist, { id: crypto.randomUUID(), task: newItem, checked: false,category:currCategory,user:username }])})
-    console.log("taskaddcame")
-    await fetch(BACKEND_URL+'/todo/add',{
-      method:'POST',
-      headers:{
-        'content-type':'application/json'
-      },
-      body:JSON.stringify({task: newItem, checked: false,category:currCategory,user:username})
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(err => console.log('fetch error:'+err))
-  }
-
-  const deleteTask = (key) => {
-    settasklist(currlist =>{return currlist.filter(task => task.id !== key)})
-  }
-
-  const checkTask = (key,checked) => {
-    settasklist(currlist =>{
-      return currlist.map(task =>{
-        if(task.id === key) return {...task,checked}
-        return task
-      })
-    })
-  }
-
-  const showCategory = (category) =>{
-    setCurrCategory(category)
-  } 
-
-
-
-  return (
-    <div className="App">
-      <Sidebar showCategory={showCategory} username={username}/>
-      <TodoList checkTask={checkTask} deleteTask={deleteTask} tasklist={tasklist} currCategory={currCategory}/>
-      <NewItemForm addTask={addTask}/>
-    </div>
-  );
+    return (
+        <AuthContext.Provider value={{ isLoggedIn:isLoggedIn,username:username, login:login, logout:logout }}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/todo' element={<TodoMain/>}/>
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/home' element={<Home />} />
+                    <Route path='/' element={<Home />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthContext.Provider>
+    );
 }
-
-export default App;
